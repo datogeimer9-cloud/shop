@@ -310,7 +310,14 @@ return;
 let items=cart.map(c=>`- ${c.name} (${c.price}₾)`).join("\n");
 let total=cart.reduce((a,b)=>a+b.price,0);
 
-let msg=`🛒 ORDER\n${items}\nTOTAL: ${total}₾\n\n${name} ${surname}\n${phone}\n${email}\n${address}`;
+let msg = `🛒 ORDER
+${items}
+TOTAL: ${total}₾
+
+${name} ${surname}
+${phone}
+${email}
+${address}`;
 
 let BOT_TOKEN="8651254889:AAFJnC-8VI2f9VY7Y6Ub2_4ViIRZzb0RIPY";
 let CHAT_ID="8170085154";
@@ -323,30 +330,19 @@ chat_id: CHAT_ID,
 text: msg
 })
 })
-.then(res => res.json())
-.then(data => {
-console.log(data);
+.then(r=>r.json())
+.then(data=>{
+if(!data.ok){
+console.log("Telegram error:", data);
+alert("არ გაიგზავნა ❌");
+return;
+}
 
-if(data.ok){
 alert("გაიგზავნა Telegram-ში ✅");
 cart=[];
 update();
 closeCart();
-}else{
-alert("Telegram error ❌");
-console.log(data);
-}
-})
-.catch(err=>{
-alert("ქსელის შეცდომა ❌");
-console.log(err);
-});
-
-alert("გაიგზავნა");
-cart=[];
-update();
-closeCart();
-}
+});}
 
 </script>
 
